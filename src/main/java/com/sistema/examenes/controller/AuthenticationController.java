@@ -1,7 +1,5 @@
 package com.sistema.examenes.controller;
 
-
-import com.sistema.examenes.config.JwtAuthenticationFilter;
 import com.sistema.examenes.config.JwtUtils;
 import com.sistema.examenes.model.JwtRequest;
 import com.sistema.examenes.model.JwtResponse;
@@ -16,7 +14,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
     @Autowired
