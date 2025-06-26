@@ -3,6 +3,7 @@ package com.sistema.examenes.controller;
 import com.sistema.examenes.config.JwtUtils;
 import com.sistema.examenes.model.JwtRequest;
 import com.sistema.examenes.model.JwtResponse;
+import com.sistema.examenes.model.Usuario;
 import com.sistema.examenes.services.Impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "allowedOriginPatterns")
 public class AuthenticationController {
 
     @Autowired
@@ -33,27 +36,41 @@ public class AuthenticationController {
         System.out.println("Inicio de generateToken");
 
         try {
+            // Validar credenciales
             autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
+
+            // Obtener usuario
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+
+            // Generar token
+            String token = this.jwtUtils.generateToken(userDetails);
+
+            System.out.println("Token generado: " + token);
+            return ResponseEntity.ok(new JwtResponse(token)); // devuelve un objeto JSON con el token
+
         } catch (BadCredentialsException e) {
             System.out.println("Credenciales inválidas");
             return ResponseEntity.status(401).body("Credenciales inválidas");
         } catch (Exception e) {
-            System.out.println("Error al autenticar: " + e.getMessage());
+            System.out.println("Error interno: " + e.getMessage());
             return ResponseEntity.status(500).body("Error interno del servidor");
         }
-
-
+//        System.out.println("Inicio de generateToken");
+//
 //        try {
 //            autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
-//        }catch (Exception exception){
-//            exception.printStackTrace();
-//            throw new Exception("Usuario no encontrado");
+//        } catch (BadCredentialsException e) {
+//            System.out.println("Credenciales inválidas");
+//            return ResponseEntity.status(401).body("Credenciales inválidas");
+//        } catch (Exception e) {
+//            System.out.println("Error al autenticar: " + e.getMessage());
+//            return ResponseEntity.status(500).body("Error interno del servidor");
 //        }
-
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-        String token = this.jwtUtils.generateToken(userDetails);
-        System.out.println("Token generado: " + token);
-        return ResponseEntity.ok(new JwtResponse(token));
+//
+//        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+//        String token = this.jwtUtils.generateToken(userDetails);
+//        System.out.println("Token generado: " + token);
+//        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     private void autenticar(String username, String password) throws Exception{
@@ -70,6 +87,11 @@ public class AuthenticationController {
     @GetMapping("/ping")
     public ResponseEntity<String> ping() {
         return ResponseEntity.ok("pong");
+    }
+
+    @GetMapping("/actual-user")
+    public Usuario obtenerUsuarioActual(Principal principal) {
+        return (Usuario) this.userDetailsService.loadUserByUsername(principal.getName());
     }
 
 }
