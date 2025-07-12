@@ -11,10 +11,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import com.sistema.examenes.exceptions.UsuarioNotFoundException;
 
 import java.security.Principal;
 
@@ -42,6 +41,9 @@ public class AuthenticationController {
 
             // Obtener usuario
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
+            if (userDetails == null) {
+                throw new UsuarioNotFoundException("Usuario no encontrado: " + jwtRequest.getUsername());
+            }
 
             // Generar token
             String token = this.jwtUtils.generateToken(userDetails);
@@ -52,26 +54,15 @@ public class AuthenticationController {
         } catch (BadCredentialsException e) {
             System.out.println("Credenciales inválidas");
             return ResponseEntity.status(401).body("Credenciales inválidas");
+
+        } catch (UsuarioNotFoundException e){
+            System.out.println("Usuario no encontrado: ");
+            return ResponseEntity.status(404).body(e.getMessage());
+
         } catch (Exception e) {
             System.out.println("Error interno: " + e.getMessage());
             return ResponseEntity.status(500).body("Error interno del servidor");
         }
-//        System.out.println("Inicio de generateToken");
-//
-//        try {
-//            autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
-//        } catch (BadCredentialsException e) {
-//            System.out.println("Credenciales inválidas");
-//            return ResponseEntity.status(401).body("Credenciales inválidas");
-//        } catch (Exception e) {
-//            System.out.println("Error al autenticar: " + e.getMessage());
-//            return ResponseEntity.status(500).body("Error interno del servidor");
-//        }
-//
-//        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-//        String token = this.jwtUtils.generateToken(userDetails);
-//        System.out.println("Token generado: " + token);
-//        return ResponseEntity.ok(new JwtResponse(token));
     }
 
     private void autenticar(String username, String password) throws Exception{

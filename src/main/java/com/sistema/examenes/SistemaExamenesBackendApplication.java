@@ -1,5 +1,6 @@
 package com.sistema.examenes;
 
+import com.sistema.examenes.exceptions.UsuarioFoundException;
 import com.sistema.examenes.model.Rol;
 import com.sistema.examenes.model.Usuario;
 import com.sistema.examenes.model.UsuarioRol;
@@ -30,28 +31,32 @@ public class SistemaExamenesBackendApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Usuario usuario = new Usuario();
+		/*try {
+            Usuario usuario = new Usuario();
 
-		usuario.setNombre("Nayeli");
-		usuario.setApellido("Alanya");
-		usuario.setUsername("nayi");
-		usuario.setEmail("nah1@gmail.com");
-		usuario.setPassword(bCryptPasswordEncoder.encode("622005"));
-		usuario.setTelefono("936278194");
-		usuario.setPerfil("foto.png");
+            usuario.setNombre("Nayeli");
+            usuario.setApellido("Alanya");
+            usuario.setUsername("nayi");
+            usuario.setEmail("nah1@gmail.com");
+            usuario.setPassword(bCryptPasswordEncoder.encode("622005"));
+            usuario.setTelefono("936278194");
+            usuario.setPerfil("foto.png");
 
-		Rol rol = new Rol();
-		rol.setRolId(1L);
-		rol.setNombre("ADMIN");
+            Rol rol = new Rol();
+            rol.setRolId(1L);
+            rol.setNombre("ADMIN");
 
-		Set<UsuarioRol> usuarioRoles = new HashSet<UsuarioRol>();
-		UsuarioRol usuarioRol = new UsuarioRol();
-		usuarioRol.setRol(rol);
-		usuarioRol.setUsuario(usuario);
-		usuarioRoles.add(usuarioRol);
+            Set<UsuarioRol> usuarioRoles = new HashSet<UsuarioRol>();
+            UsuarioRol usuarioRol = new UsuarioRol();
+            usuarioRol.setRol(rol);
+            usuarioRol.setUsuario(usuario);
+            usuarioRoles.add(usuarioRol);
 
-		Usuario UsuarioGuardado = usuarioService.guardarUsuario(usuario, usuarioRoles);
-		System.out.println(UsuarioGuardado.getUsername());
+            Usuario UsuarioGuardado = usuarioService.guardarUsuario(usuario, usuarioRoles);
+            System.out.println(UsuarioGuardado.getUsername());
+        }catch (UsuarioFoundException exception){
+            exception.printStackTrace();
+        }*/
 
 	}
 }
