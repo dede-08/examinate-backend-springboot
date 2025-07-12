@@ -121,7 +121,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //            }
 //        }
 //
-//        // ✅ Asegúrate de ejecutar el resto de filtros SIEMPRE
 //        filterChain.doFilter(request, response);
     }
 }

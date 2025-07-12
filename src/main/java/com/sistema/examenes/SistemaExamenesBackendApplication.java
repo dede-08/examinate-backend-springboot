@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,10 @@ public class SistemaExamenesBackendApplication implements CommandLineRunner {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SistemaExamenesBackendApplication.class, args);
 	}
@@ -24,14 +29,15 @@ public class SistemaExamenesBackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		/*Usuario usuario = new Usuario();
+
+		Usuario usuario = new Usuario();
 
 		usuario.setNombre("Nayeli");
-		usuario.setApellido("Huamani");
+		usuario.setApellido("Alanya");
 		usuario.setUsername("nayi");
-		usuario.setEmail("nahi210@gmail.com");
-		usuario.setPassword("622005");
-		usuario.setTelefono("983454313");
+		usuario.setEmail("nah1@gmail.com");
+		usuario.setPassword(bCryptPasswordEncoder.encode("622005"));
+		usuario.setTelefono("936278194");
 		usuario.setPerfil("foto.png");
 
 		Rol rol = new Rol();
@@ -45,8 +51,7 @@ public class SistemaExamenesBackendApplication implements CommandLineRunner {
 		usuarioRoles.add(usuarioRol);
 
 		Usuario UsuarioGuardado = usuarioService.guardarUsuario(usuario, usuarioRoles);
-		System.out.println(UsuarioGuardado.getUsername());*/
-
+		System.out.println(UsuarioGuardado.getUsername());
 
 	}
 }
