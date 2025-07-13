@@ -27,8 +27,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        //  Excluir rutas públicas
 
+        //  Excluir rutas públicas
         String requestPath = request.getServletPath();
         System.out.println("Ruta solicitada: " + requestPath);
 
@@ -61,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             System.out.println("Usuario cargado desde la base de datos: " + userDetails.getUsername());
 
             boolean tokenValido = this.jwtUtils.validateToken(jwtToken, userDetails);
-            System.out.println("¿Token válido? " + tokenValido);
+            System.out.println("¿Token válido?: " + tokenValido);
 
             if (tokenValido) {
                 UsernamePasswordAuthenticationToken authentication =

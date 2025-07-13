@@ -36,16 +36,16 @@ public class AuthenticationController {
         System.out.println("Inicio de generateToken");
 
         try {
-            // Validar credenciales
+            //validar credenciales
             autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
 
-            // Obtener usuario
+            //obtener usuario
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
             if (userDetails == null) {
                 throw new UsuarioNotFoundException("Usuario no encontrado: " + jwtRequest.getUsername());
             }
 
-            // Generar token
+            //generar token
             String token = this.jwtUtils.generateToken(userDetails);
 
             System.out.println("Token generado: " + token);
