@@ -31,15 +31,15 @@ public class SistemaExamenesBackendApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		/*try {
+		/* {
             Usuario usuario = new Usuario();
 
-            usuario.setNombre("Nayeli");
+            usuario.setNombre("Guardin");
             usuario.setApellido("Alanya");
-            usuario.setUsername("nayi");
-            usuario.setEmail("nah1@gmail.com");
-            usuario.setPassword(bCryptPasswordEncoder.encode("622005"));
-            usuario.setTelefono("936278194");
+            usuario.setUsername("guardin");
+            usuario.setEmail("guardin@admin.com");
+            usuario.setPassword(bCryptPasswordEncoder.encode("admin28"));
+            usuario.setTelefono("981765987");
             usuario.setPerfil("foto.png");
 
             Rol rol = new Rol();
